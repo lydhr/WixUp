@@ -1,0 +1,148 @@
+#python mm 
+# train mmr_kp dgcnn  # arguments = {action, dataset, model}
+#--save recode-new  -config ./configs/keypoints/mmr_keypoints_stack_5_point.toml 
+#-a gpu -s auto -w 8 -m 20
+
+
+run: "train" # train, test, tune
+
+debug: false
+seed: 0 # Number of steps for model optimization
+
+model:
+  name: "DGCNN" # [DGCNN, MLP, PointNet, PointTransformer, PointMLP]
+  optimizer: "adam"
+  learning_rate: 1e-5
+  epochs: 10
+  batch_size: 128
+  weight_decay: 1e-5
+  device: ${device}
+  checkpoint:
+    resume_last: false
+    load_path: null # checkpoints/foldername/
+    save_path: ${output_path} # only checkpoints and metrics
+  visualize: false # Visualize test result as mp4.
+  debug: ${debug}
+
+device:
+  num_workers: 8 # cpu
+  num_devices: 1 # gpu
+  accelerator: 'gpu' # type
+  strategy: 'auto' #ddp
+
+data:
+  default: 'mili'
+  train: ${${.default}.train}
+  validate: ${${.default}.validate}
+  test: ${${.default}.test}
+  augment: ${augment}
+  
+  params:
+    task: ${task}
+    transform: ${${task}.transform}
+    pretransform: ${${task}.pretransform}
+    target_dtype: ${${task}.target_dtype}
+    zero_padding: 'per_data_point'
+    stacks: ${${task}.stacks}
+
+# default exp setups for data
+mili:
+  files: ['1_*.pkl'] # null for all files
+  train:
+    set: 'MilipointDataset'
+    raw:
+      files: ['0_0.pkl', '0_1.pkl']
+      split: [0, 1]
+  validate:
+    set: 'MilipointDataset'
+    raw:
+      files: ['0_2.pkl']
+      split: [0, 1]
+  test:
+    set: 'MilipointDataset'
+    raw:
+      files: ${mili.files}
+      split: [0, 0.8]
+mars:
+  train:
+    set: 'MarsDataset'
+    raw:
+      files: ['train.pkl']
+      split: [0, 1]
+  validate:
+    set: 'MarsDataset'
+    raw:
+      files: ['validate.pkl']
+      split: [0, 1]
+  test:
+    set: 'MarsDataset'
+    raw:
+      files: ['test.pkl']
+      split: [0, 1]
+mmfi:
+  files: ['E03_*.pkl']
+  train:
+    set: 'MMFiDataset'
+    raw:
+      files: ['E02*_1.pkl']
+      split: [0, 1]
+  validate:
+    set: 'MMFiDataset'
+    raw:
+      files: ['E02*_2.pkl']
+      split: [0, 0.8]
+  test:
+    set: 'MMFiDataset'
+    raw:
+      files: ${mmfi.files}
+      split: [0, 0.8]
+
+
+augment:
+  method: null # 'baseline_global_scale', 'wixup', null
+  distance_range: 1 # [1,..n], i.e. the scale of augment
+  wixup:
+    distance_range: ${..distance}
+    alpha: 0
+    std_dev: 1
+    bootstrap: true
+    merge: true
+  global_scale: [0.8, 1.2]
+  task: ${task}
+
+
+task: "keypoint" # keypoint, identification, action
+keypoint:
+  stacks: null # 5, null is None
+  transform:
+    _target_: utils.Scale
+    factor: 100
+  pretransform: null # null is None
+  target_dtype: 'torch.float'
+identification:
+  stacks: null # 5
+  transform: null
+  pretransform: null
+  target_dtype: 'torch.float'
+action:
+  stacks: null # 50
+  transform: null
+  pretransform: null
+  target_dtype: 'torch.float'
+
+
+
+tuner:
+  n_trials: 3 # Number of trails to run.
+
+
+now: ${now:%Y-%m-%d-%H-%M-%S}
+output_path: ${hydra:runtime.output_dir} # hydra.run.dir or hydra.sweep.dir/subdir
+hydra:
+  run:
+    dir: 'saved/logs/${now}_${hydra.job.override_dirname}'
+  sweep:
+    dir: 'saved/logs/${now}' # multirun share the same now/start-time
+    subdir: ${hydra.job.override_dirname}
+    # subdir: ${hydra.job.num}
+
