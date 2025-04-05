@@ -1,8 +1,26 @@
 # WixUp
-A Generic Data Augmentation Framework for Wireless Human Tracking. Please find the paper or preprint for more details. TBA in SenSys'25.
+A Generic Data Augmentation Framework for Wireless Human Tracking. Please find the paper or [preprint](https://arxiv.org/abs/2405.04804) for more details. TBA in SenSys'25.
+
+Please cite
+```
+@inproceedings{li2025wixup,
+  author       = {Yin Li and Rajalakshmi Nandakumar},
+  title        = {WixUp: A Generic Data Augmentation Framework for Wireless Human Tracking},
+  booktitle    = {Proceedings of the 23rd ACM Conference on Embedded Networked Sensor Systems (SenSys '25)},
+  year         = {2025},
+  pages        = {1--14},
+  address      = {Irvine, CA, USA},
+  month        = may,
+  publisher    = {ACM},
+  location     = {Irvine, CA, USA},
+  doi          = {10.1145/3715014.3722084},
+  url          = {https://doi.org/10.1145/3715014.3722084},
+  note         = {14 pages}
+}
+```
 
 ### Usage
-0. Download datasets to `data/` by referring to the three dataset papers: MiliPoint, MMFi, MARs. [TBA]
+0. Download datasets to `data/` by referring to the three dataset papers: MiliPoint, MMFi, MARs.
 1. Read and revise the settings and parameters in the examplary `hydra/config.yaml`, e.g:
     - Select subsets from the three datasets: MiliPoint, MMFi, MARs.
     - Set augmentation parameters such as distance and boostrap.
