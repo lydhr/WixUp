@@ -3,19 +3,18 @@ A Generic Data Augmentation Framework for Wireless Human Tracking. Please find t
 
 Please cite
 ```
-@inproceedings{li2025wixup,
-  author       = {Yin Li and Rajalakshmi Nandakumar},
-  title        = {WixUp: A Generic Data Augmentation Framework for Wireless Human Tracking},
-  booktitle    = {Proceedings of the 23rd ACM Conference on Embedded Networked Sensor Systems (SenSys '25)},
-  year         = {2025},
-  pages        = {1--14},
-  address      = {Irvine, CA, USA},
-  month        = may,
-  publisher    = {ACM},
-  location     = {Irvine, CA, USA},
-  doi          = {10.1145/3715014.3722084},
-  url          = {https://doi.org/10.1145/3715014.3722084},
-  note         = {14 pages}
+@inbook{10.1145/3715014.3722084,
+author = {Li, Yin and Nandakumar, Rajalakshmi},
+title = {WixUp: A Generic Data Augmentation Framework for Wireless Human Tracking},
+year = {2025},
+isbn = {9798400714795},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3715014.3722084},
+abstract = {Wireless sensing technologies, leveraging ubiquitous sensors such as acoustics or mmWave, can enable various applications such as human motion and health tracking. However, the recent trend of incorporating deep learning into wireless sensing introduces new challenges, such as the need for extensive training data and poor model generalization. As a remedy, data augmentation is one solution well-explored in other fields such as computer vision; yet they are not directly applicable due to the unique characteristics of wireless signals. Hence, we propose a custom data augmentation framework, WixUp, tailored for wireless human sensing. Our goal is to build a generic data augmentation framework applicable to various tasks, models, data formats, or wireless modalities. Specifically, WixUp achieves this by a custom Gaussian mixture and probability-based transformation, making any data formats capable of an in-depth augmentation at the dense range profile level. Additionally, our mixing-based augmentation enables un-supervised domain adaptation via self-training, allowing model training with no ground truth labels from new users or environments in practice. We extensively evaluated WixUp across four datasets of two sensing modalities (mmWave, acoustics), two model architectures, and three tasks (pose estimation, identification, action recognition). WixUp provides consistent performance improvement (2.79\%-84.25\%) across these various scenarios and outperforms other data augmentation baselines.},
+booktitle = {Proceedings of the 23rd ACM Conference on Embedded Networked Sensor Systems},
+pages = {449–462},
+numpages = {14}
 }
 ```
 
