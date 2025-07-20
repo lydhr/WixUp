@@ -70,3 +70,8 @@ Outline of revisions:
 - Overwrite processed data in `mmrnet/dataset`.
 - Add self-training, resuming checkpoints, etc. in `mmrnet/session/train.py`, `test.py`, and `wrapper.py`.
 - Extend one-hot encoding for new tasks like action in `mmrnet/session` and `mmrnet/models`.
+
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=lydhr/WixUp&type=Date)](https://www.star-history.com/#lydhr/WixUp&Date)
